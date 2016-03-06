@@ -1,0 +1,20 @@
+{
+  "name": "Chewett/php-uglifyjs2",
+  "description": "A basic wrapper around uglifyjs2 for PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christopher Hewett",
+      "email": "chewett@hotmail.co.uk"
+    }
+  ],
+  "autoload": {
+    "psr-0": { "Chewett": "src/Chewett/" }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.2.*",
+    "components/jquery": "^2.2",
+    "twbs/bootstrap": "^3.3"
+  }
+}
