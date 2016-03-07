@@ -1,5 +1,5 @@
 {
-  "name": "Chewett/php-uglifyjs2",
+  "name": "chewett/php-uglifyjs2",
   "description": "A basic wrapper around uglifyjs2 for PHP",
   "minimum-stability": "stable",
   "license": "MIT",
