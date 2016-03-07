@@ -51,4 +51,14 @@ class JSUglify2Test extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($output);
     }
 
+    public function testRunningOnJqueryWithMangle() {
+        $ug = new JSUglify2();
+        $output = $ug->uglify(
+            [__DIR__ . '/../../../vendor/components/jquery/jquery.js'],
+            self::$buildDir . 'jquery_compressed.min.js',
+            ['compress' => '']
+        );
+        $this->assertNotNull($output);
+    }
+
 }

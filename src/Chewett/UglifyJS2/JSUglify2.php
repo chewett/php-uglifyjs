@@ -124,8 +124,13 @@ class JSUglify2
                 $optionValue = ($value ? 'true' : 'false');
                 $optionsString .= "--{$option}={$optionValue} ";
             }elseif($optionType === 'string') {
-                $optionValue = escapeshellarg($value);
-                $optionsString .= "--{$option}={$optionValue} ";
+                if($value === '') {
+                    $optionsString .= "--{$option} ";
+                }else{
+                    $optionValue = escapeshellarg($value);
+                    $optionsString .= "--{$option}={$optionValue} ";
+                }
+
             }elseif($optionType === 'array') {
                 throw new UglifyJs2Exception('Array type not supported yet');
             }else{
