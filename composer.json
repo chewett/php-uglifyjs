@@ -10,7 +10,7 @@
     }
   ],
   "autoload": {
-    "psr-0": { "": "src/" }
+    "psr-4": { "Chewett\\": ["src/Chewett/", "tests/Chewett/"] }
   },
   "require-dev": {
     "phpunit/phpunit": "5.2.*",
