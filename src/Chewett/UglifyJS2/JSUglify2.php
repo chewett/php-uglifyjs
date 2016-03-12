@@ -101,7 +101,7 @@ class JSUglify2
 
         exec($commandString, $output, $returnCode);
         if($returnCode !== 0) {
-            throw new UglifyJs2Exception("Failed to run uglifyjs, something went wrong...");
+            throw new UglifyJs2Exception("Failed to run uglifyjs, something went wrong... command: " . $commandString);
         }
         return $output;
     }
