@@ -6,7 +6,7 @@ This library is a wrapper around the nodejs [uglifyjs2](https://github.com/misho
 Usage
 -----
 
-```
+```php
 $ug = new JSUglify2();
 $output = $ug->uglify(["somefile.js", "secondfile.js"], "output.js");
 ```
@@ -14,7 +14,7 @@ $output = $ug->uglify(["somefile.js", "secondfile.js"], "output.js");
 Given an array of input files and an output file location it will minimise the javascript.
 Options can be passed in as a third parameter
 
-```
+```php
 $ug = new JSUglify2();
 $output = $ug->uglify(["somefile.js", "secondfile.js"], "output.js", ['compress' => '']);
 ```
