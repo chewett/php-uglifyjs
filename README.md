@@ -1,13 +1,13 @@
-php-uglifyjs2
-=============
+php-uglifyjs
+============
 
-This library is a wrapper around the nodejs [uglifyjs2](https://github.com/mishoo/UglifyJS2) script for PHP.
+This library is a wrapper around the nodejs [uglifyjs](https://github.com/mishoo/UglifyJS2) script for PHP.
 
 Usage
 -----
 
 ```php
-$ug = new JSUglify2();
+$ug = new JSUglify();
 $output = $ug->uglify(["somefile.js", "secondfile.js"], "output.js");
 ```
 
@@ -15,7 +15,7 @@ Given an array of input files and an output file location it will minimise the j
 Options can be passed in as a third parameter
 
 ```php
-$ug = new JSUglify2();
+$ug = new JSUglify();
 $output = $ug->uglify(["somefile.js", "secondfile.js"], "output.js", ['compress' => '']);
 ```
 
@@ -26,7 +26,7 @@ Installation
 
 This can be included in your composer project by running
 
-`composer require chewett/php-uglifyjs2`
+`composer require chewett/php-uglifyjs`
 
 Then running `composer update` will update your composer lock file to include and download this new dependency. 
 

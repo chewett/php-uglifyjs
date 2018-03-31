@@ -1,18 +1,18 @@
 <?php
 
-namespace Chewett\UglifyJS22asdasd;
+namespace Chewett\UglifyJS\Test;
 
-use Chewett\UglifyJS2\JSUglify2;
+use Chewett\UglifyJS\JSUglify;
 
 /**
  * Class JSUglify2Test
  * @package Chewett\UglifyJS22asdasd
  * @author Christopher Hewett <chewett@hotmail.co.uk>
  */
-class JSUglify2Test extends \PHPUnit_Framework_TestCase
+class JSUglifyTest extends \PHPUnit_Framework_TestCase
 {
 
-    public static $buildDir = __DIR__ . '/../../../build/output/';
+    public static $buildDir = __DIR__ . '/../build/output/';
 
     public function setUp() {
         if(!is_dir(self::$buildDir)) {
@@ -24,16 +24,16 @@ class JSUglify2Test extends \PHPUnit_Framework_TestCase
      * Very basic check to see if the jsuglify version flag works
      */
     public function testCheckVersionWorks() {
-        $ug = new JSUglify2();
+        $ug = new JSUglify();
         $this->assertTrue($ug->checkUglifyJsExists(), "Test to run jsuglify failed, is it installed?");
     }
 
     /**
      * Tests to see if it fails with the expected exception on a non file
-     * @expectedException \Chewett\UglifyJS2\UglifyJs2Exception
+     * @expectedException \Chewett\UglifyJS\UglifyJSException
      */
     public function testFileNotReadable() {
-        $ug = new JSUglify2();
+        $ug = new JSUglify();
         $ug->uglify(["not_a_file"], "output.js");
     }
 
@@ -41,8 +41,8 @@ class JSUglify2Test extends \PHPUnit_Framework_TestCase
      * Tests to see if running the file on a single file works
      */
     public function testRunningOnJquery() {
-        $ug = new JSUglify2();
-        $output = $ug->uglify([__DIR__ . '/../../../vendor/components/jquery/jquery.js'], self::$buildDir . 'jquery.min.js');
+        $ug = new JSUglify();
+        $output = $ug->uglify([__DIR__ . '/../vendor/components/jquery/jquery.js'], self::$buildDir . 'jquery.min.js');
         $this->assertNotNull($output);
     }
 
@@ -50,8 +50,8 @@ class JSUglify2Test extends \PHPUnit_Framework_TestCase
      * Tests to see if minifying multiple files throws an error
      */
     public function testRunningOnTwitterBootstrap() {
-        $ug = new JSUglify2();
-        $twitterBootstrapDir = __DIR__ . '/../../../vendor/twbs/bootstrap/js/';
+        $ug = new JSUglify();
+        $twitterBootstrapDir = __DIR__ . '/../vendor/twbs/bootstrap/js/';
         $output = $ug->uglify([
             $twitterBootstrapDir . "affix.js",
             $twitterBootstrapDir . "alert.js",
@@ -72,9 +72,9 @@ class JSUglify2Test extends \PHPUnit_Framework_TestCase
      * Tests to see if mangling jquery will not throw an error
      */
     public function testRunningOnJqueryWithMangle() {
-        $ug = new JSUglify2();
+        $ug = new JSUglify();
         $output = $ug->uglify(
-            [__DIR__ . '/../../../vendor/components/jquery/jquery.js'],
+            [__DIR__ . '/../vendor/components/jquery/jquery.js'],
             self::$buildDir . 'jquery_compressed.min.js',
             ['compress' => '']
         );

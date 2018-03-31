@@ -1,6 +1,6 @@
 {
-  "name": "chewett/php-uglifyjs2",
-  "description": "A basic wrapper around uglifyjs2 for PHP",
+  "name": "chewett/php-uglifyjs",
+  "description": "A basic wrapper around uglifyjs for PHP",
   "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
@@ -10,7 +10,10 @@
     }
   ],
   "autoload": {
-    "psr-4": { "Chewett\\": ["src/Chewett/", "tests/Chewett/"] }
+    "psr-4": { "Chewett\\UglifyJS\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Chewett\\UglifyJS\\Test\\": "tests/"}
   },
   "require-dev": {
     "phpunit/phpunit": "5.2.*",

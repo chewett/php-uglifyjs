@@ -1,6 +1,6 @@
 <?php
 
-namespace Chewett\UglifyJS2;
+namespace Chewett\UglifyJS;
 
 /**
  * Class UglifyJs2Exception
@@ -8,7 +8,7 @@ namespace Chewett\UglifyJS2;
  * @package Chewett\UglifyJS2
  * @author Christopher Hewett <chewett@hotmail.co.uk>
  */
-class UglifyJs2Exception extends \Exception
+class UglifyJSException extends \Exception
 {
 
 }

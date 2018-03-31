@@ -1,10 +1,10 @@
 <?php
 
-namespace Chewett\UglifyJS2;
+namespace Chewett\UglifyJS;
 
-class JSUglify2
+class JSUglify
 {
-    /** @var string Path to the uglifyjs2 script */
+    /** @var string Path to the uglifyjs script */
     private static $location = 'uglifyjs';
     /** @var array List of options allowable to be used for the program */
     private static $options = [
@@ -48,13 +48,13 @@ class JSUglify2
 
     /**
      * @param $location
-     * @throws UglifyJs2Exception
+     * @throws UglifyJSException
      */
     public function setLocation($location) {
         if(file_exists($location)) {
             self::$location = $location;
         }else{
-            throw new UglifyJs2Exception("Cannot find executable in given location");
+            throw new UglifyJSException("Cannot find executable in given location");
         }
     }
 
@@ -85,12 +85,12 @@ class JSUglify2
      * @param string $outputFilename Filename to output the javascript to
      * @param array $options Options to pass to the script
      * @return string Full output of the executable
-     * @throws UglifyJs2Exception Thrown when something goes wrong with running the script
+     * @throws UglifyJSException Thrown when something goes wrong with running the script
      */
     public function uglify(array $files, $outputFilename, array $options = []) {
         foreach($files as $filename) {
             if(!is_readable($filename)) {
-                throw new UglifyJs2Exception("Filename " . $filename . " is not readable");
+                throw new UglifyJSException("Filename " . $filename . " is not readable");
             }
         }
         $safeOutputFilename = escapeshellarg($outputFilename);
@@ -101,7 +101,7 @@ class JSUglify2
 
         exec($commandString, $output, $returnCode);
         if($returnCode !== 0) {
-            throw new UglifyJs2Exception("Failed to run uglifyjs, something went wrong... command: " . $commandString);
+            throw new UglifyJSException("Failed to run uglifyjs, something went wrong... command: " . $commandString);
         }
         return $output;
     }
@@ -110,13 +110,13 @@ class JSUglify2
      * Internal functions to validate and produce the options string
      * @param array $options Array of options to pass to the script
      * @return string Full options string to be used for the script
-     * @throws UglifyJs2Exception Thrown when something is passed in as an option that isnt valid
+     * @throws UglifyJSException Thrown when something is passed in as an option that isnt valid
      */
     private function validateOptions($options) {
         $optionsString = '';
         foreach($options as $option => $value) {
             if(!array_key_exists($option, self::$options)) {
-                throw new UglifyJs2Exception('Option not supported');
+                throw new UglifyJSException('Option not supported');
             }
 
             $optionType = self::$options[$option];
@@ -132,9 +132,9 @@ class JSUglify2
                 }
 
             }elseif($optionType === 'array') {
-                throw new UglifyJs2Exception('Array type not supported yet');
+                throw new UglifyJSException('Array type not supported yet');
             }else{
-                throw new UglifyJs2Exception('Option type ' . $option . ' not supported');
+                throw new UglifyJSException('Option type ' . $option . ' not supported');
             }
         }
         return $optionsString;
