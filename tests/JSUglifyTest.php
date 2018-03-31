@@ -5,8 +5,8 @@ namespace Chewett\UglifyJS\Test;
 use Chewett\UglifyJS\JSUglify;
 
 /**
- * Class JSUglify2Test
- * @package Chewett\UglifyJS22asdasd
+ * Class JSUglifyTest
+ * @package Chewett\UglifyJS\Test
  * @author Christopher Hewett <chewett@hotmail.co.uk>
  */
 class JSUglifyTest extends \PHPUnit_Framework_TestCase
