@@ -108,7 +108,9 @@ class JSUglify
         }
 
         if($finalJsHeaderFilename) {
+            //If we have provided a header filename then we are going to get the uglified file then prepend the data
             $context = stream_context_create();
+            //Open both files in stream mode so we dont load the entire file into memory, streams are the best!
             $uglifyJsOutputFileHandler = fopen($tmpUglifyJsOutput, 'r', false, $context);
             $jsHeaderFileHandler = fopen($finalJsHeaderFilename, 'r',false, $context);
 
@@ -116,11 +118,13 @@ class JSUglify
             file_put_contents($tmpFinalOutput, $jsHeaderFileHandler);
             file_put_contents($tmpFinalOutput, $uglifyJsOutputFileHandler, FILE_APPEND);
 
+            //Close unlink and move the files we dont need
             fclose($uglifyJsOutputFileHandler);
             fclose($jsHeaderFileHandler);
             unlink($tmpUglifyJsOutput);
             rename($tmpFinalOutput, $outputFilename);
         }else{
+            //Dont try and add any files, just move the temporary file into the final location
             rename($tmpUglifyJsOutput, $outputFilename);
         }
 
