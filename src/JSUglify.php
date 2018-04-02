@@ -5,7 +5,7 @@ namespace Chewett\UglifyJS;
 class JSUglify
 {
     /** @var string Path to the uglifyjs script */
-    private static $location = 'uglifyjs';
+    private static $uglifyBinaryPath = 'uglifyjs';
     /** @var array List of options allowable to be used for the program */
     private static $options = [
         'source-map' => 'string',
@@ -47,30 +47,27 @@ class JSUglify
     ];
 
     /**
-     * @param $location
-     * @throws UglifyJSException
+     * This allows you to set the binary path to the uglify executable. This is helpful on systems where
+     * it is globally registered and may not be on your PATH
+     * @param string $uglifyBinaryPath Either the name of the binary of path to the binary and name of it
      */
-    public function setLocation($location) {
-        if(file_exists($location)) {
-            self::$location = $location;
-        }else{
-            throw new UglifyJSException("Cannot find executable in given location");
-        }
+    public function setUglifyBinaryPath($uglifyBinaryPath) {
+        self::$uglifyBinaryPath = $uglifyBinaryPath;
     }
 
     /**
      * @return string Location of the uglifyjs script
      */
-    public function getLocation() {
-        return self::$location;
+    public function getUglifyBinaryPath() {
+        return self::$uglifyBinaryPath;
     }
 
-    /**
+    /**s
      * Internal function used to validate that the uglifyJS script exists and works (to some degree)
      * @return bool
      */
     public function checkUglifyJsExists() {
-        $command = self::$location . " -V";
+        $command = self::$uglifyBinaryPath . " -V";
         exec($command, $outputText, $returnCode);
         if($returnCode == 0) {
             return true;
@@ -100,7 +97,7 @@ class JSUglify
         $tmpUglifyJsOutput = tempnam(sys_get_temp_dir(), "uglify_js_intermediate_out_");
         $safeShellTmpUglifyJsFilename = escapeshellarg($tmpUglifyJsOutput);
 
-        $commandString = self::$location . " {$fileNames} --output {$safeShellTmpUglifyJsFilename} {$optionsString}";
+        $commandString = self::$uglifyBinaryPath . " {$fileNames} --output {$safeShellTmpUglifyJsFilename} {$optionsString}";
 
         exec($commandString, $output, $returnCode);
         if($returnCode !== 0) {
