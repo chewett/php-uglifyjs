@@ -5,7 +5,7 @@ namespace Chewett\UglifyJS;
 class JSUglify
 {
     /** @var string Path to the uglifyjs script */
-    private static $uglifyBinaryPath = 'uglifyjs';
+    private $uglifyBinaryPath = 'uglifyjs';
     /** @var array List of options allowable to be used for the program */
     private static $options = [
         'source-map' => 'string',
@@ -52,14 +52,14 @@ class JSUglify
      * @param string $uglifyBinaryPath Either the name of the binary of path to the binary and name of it
      */
     public function setUglifyBinaryPath($uglifyBinaryPath) {
-        self::$uglifyBinaryPath = $uglifyBinaryPath;
+        $this->$uglifyBinaryPath = $uglifyBinaryPath;
     }
 
     /**
      * @return string Location of the uglifyjs script
      */
     public function getUglifyBinaryPath() {
-        return self::$uglifyBinaryPath;
+        return $this->uglifyBinaryPath;
     }
 
     /**
@@ -67,7 +67,7 @@ class JSUglify
      * @return bool
      */
     public function checkUglifyJsExists() {
-        $command = self::$uglifyBinaryPath . " -V";
+        $command = $this->uglifyBinaryPath . " -V";
         exec($command, $outputText, $returnCode);
         return ($returnCode == 0);
     }
@@ -93,7 +93,7 @@ class JSUglify
         $tmpUglifyJsOutput = tempnam(sys_get_temp_dir(), "uglify_js_intermediate_out_");
         $safeShellTmpUglifyJsFilename = escapeshellarg($tmpUglifyJsOutput);
 
-        $commandString = self::$uglifyBinaryPath . " {$fileNames} --output {$safeShellTmpUglifyJsFilename} {$optionsString}";
+        $commandString = $this->uglifyBinaryPath . " {$fileNames} --output {$safeShellTmpUglifyJsFilename} {$optionsString}";
 
         exec($commandString, $output, $returnCode);
         if($returnCode !== 0) {
