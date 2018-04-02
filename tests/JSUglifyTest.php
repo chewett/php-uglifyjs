@@ -3,6 +3,7 @@
 namespace Chewett\UglifyJS\Test;
 
 use Chewett\UglifyJS\JSUglify;
+use Chewett\UglifyJS\UglifyJSException;
 
 /**
  * Class JSUglifyTest
@@ -29,15 +30,18 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @expectedException UglifyJSException
+     */
     public function testUglifyJsFailsWhenMissingExe() {
-        $this->markTestIncomplete("Not yet finished");
         $ug = new JSUglify();
-        $ug->setLocation("uglifyjs");
+        $ug->setUglifyBinaryPath("not_uglifyjs");
+        $ug->checkUglifyJsExists();
     }
 
     /**
      * Tests to see if it fails with the expected exception on a non file
-     * @expectedException \Chewett\UglifyJS\UglifyJSException
+     * @expectedException UglifyJSException
      */
     public function testFileNotReadable() {
         $ug = new JSUglify();
