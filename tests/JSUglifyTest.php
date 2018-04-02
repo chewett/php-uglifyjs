@@ -15,10 +15,28 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
 
     public static $buildDir = __DIR__ . '/../build/output/';
 
+    /**
+     * Get the build directory ready to dump out data to it
+     */
     public function setUp() {
         if(!is_dir(self::$buildDir)) {
             mkdir(self::$buildDir);
         }
+    }
+
+    /**
+     * Simple provider to make tests run with a couple different options when testing php-uglifyjs
+     * @return array Provider details
+     */
+    public function optionsHeaderfileProvider() {
+        $headerfilePath = __DIR__ . "/../build/headerfile.js";
+
+        return [
+            'No options no header files' => [],
+            'No options, header file' => [$headerfilePath],
+            'Compress option, no header file' => [null, ['compress' => '']],
+            'Compress option, header file' => [$headerfilePath, ['compress' => '']]
+        ];
     }
 
     /**
@@ -41,11 +59,28 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests to see if running the file on a single file works
+     * @dataProvider optionsHeaderfileProvider
      */
-    public function testRunningOnJquery() {
+    public function testRunningOnJquery($headerfile=null, $options=[]) {
+        $outputFilename = self::$buildDir . 'jquery.min.js';
         $ug = new JSUglify();
-        $output = $ug->uglify([__DIR__ . '/../vendor/components/jquery/jquery.js'], self::$buildDir . 'jquery.min.js');
+        $output = $ug->uglify([__DIR__ . '/../vendor/components/jquery/jquery.js'], $outputFilename, $options, $headerfile);
         $this->assertNotNull($output);
+
+        $this->assertFileExists($outputFilename);
+    }
+
+    /**
+     * Tests to see if running uglify on an empty file works (Expected to work as normal)
+     * @dataProvider optionsHeaderfileProvider
+     */
+    public function testRunningOnEmptyFile($headerfile=null, $options=[]) {
+        $outputFilename = self::$buildDir . 'emptyFile.js';
+        $ug = new JSUglify();
+        $output = $ug->uglify([__DIR__ . '/../build/emptyFile.js'], $outputFilename, $options, $headerfile);
+        $this->assertNotNull($output);
+
+        $this->assertFileExists($outputFilename);
     }
 
     /**
@@ -69,8 +104,11 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests to see if minifying multiple files throws an error
+     * @dataProvider optionsHeaderfileProvider
      */
-    public function testRunningOnTwitterBootstrap() {
+    public function testRunningOnTwitterBootstrap($headerfile=null, $options=[]) {
+        $outputFilename = self::$buildDir . 'bootstrap.min.js';
+
         $ug = new JSUglify();
         $twitterBootstrapDir = __DIR__ . '/../vendor/twbs/bootstrap/js/';
         $output = $ug->uglify([
@@ -85,21 +123,10 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
             $twitterBootstrapDir . "tab.js",
             $twitterBootstrapDir . "tooltip.js",
             $twitterBootstrapDir . "transition.js"
-        ], self::$buildDir . 'bootstrap.min.js');
+        ], $outputFilename, $options, $headerfile);
         $this->assertNotNull($output);
-    }
 
-    /**
-     * Tests to see if mangling jquery will not throw an error
-     */
-    public function testRunningOnJqueryWithMangle() {
-        $ug = new JSUglify();
-        $output = $ug->uglify(
-            [__DIR__ . '/../vendor/components/jquery/jquery.js'],
-            self::$buildDir . 'jquery_compressed.min.js',
-            ['compress' => '']
-        );
-        $this->assertNotNull($output);
+        $this->assertFileExists($outputFilename);
     }
 
 }
