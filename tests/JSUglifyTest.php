@@ -28,6 +28,11 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($ug->checkUglifyJsExists(), "Test to run jsuglify failed, is it installed?");
     }
 
+    public function testUglifyJsFailsWhenMissingExe() {
+        $ug = new JSUglify();
+        $ug->setLocation("uglifyjs");
+    }
+
     /**
      * Tests to see if it fails with the expected exception on a non file
      * @expectedException \Chewett\UglifyJS\UglifyJSException

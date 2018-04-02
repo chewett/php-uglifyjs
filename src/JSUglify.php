@@ -84,25 +84,46 @@ class JSUglify
      * @param array $files List of filenames to minimise
      * @param string $outputFilename Filename to output the javascript to
      * @param array $options Options to pass to the script
+     * @param string|null $finalJsHeaderFilename Path to file of header to place at the top of the JS file
      * @return string Full output of the executable
      * @throws UglifyJSException Thrown when something goes wrong with running the script
      */
-    public function uglify(array $files, $outputFilename, array $options = []) {
+    public function uglify(array $files, $outputFilename, array $options = [], $finalJsHeaderFilename=null) {
         foreach($files as $filename) {
             if(!is_readable($filename)) {
                 throw new UglifyJSException("Filename " . $filename . " is not readable");
             }
         }
-        $safeOutputFilename = escapeshellarg($outputFilename);
         $optionsString = $this->validateOptions($options);
         $fileNames = implode(' ', array_map('escapeshellarg', $files));
 
-        $commandString = self::$location . " {$fileNames} --output {$safeOutputFilename} {$optionsString}";
+        $tmpUglifyJsOutput = tempnam(sys_get_temp_dir(), "uglify_js_intermediate_out_");
+        $safeShellTmpUglifyJsFilename = escapeshellarg($tmpUglifyJsOutput);
+
+        $commandString = self::$location . " {$fileNames} --output {$safeShellTmpUglifyJsFilename} {$optionsString}";
 
         exec($commandString, $output, $returnCode);
         if($returnCode !== 0) {
             throw new UglifyJSException("Failed to run uglifyjs, something went wrong... command: " . $commandString);
         }
+
+        if($finalJsHeaderFilename) {
+            $context = stream_context_create();
+            $uglifyJsOutputFileHandler = fopen($tmpUglifyJsOutput, 'r', false, $context);
+            $jsHeaderFileHandler = fopen($finalJsHeaderFilename, 'r',false, $context);
+
+            $tmpFinalOutput = tempnam(sys_get_temp_dir(), 'php_uglify_js_out_');
+            file_put_contents($tmpFinalOutput, $jsHeaderFileHandler);
+            file_put_contents($tmpFinalOutput, $uglifyJsOutputFileHandler, FILE_APPEND);
+
+            fclose($uglifyJsOutputFileHandler);
+            fclose($jsHeaderFileHandler);
+            unlink($tmpUglifyJsOutput);
+            rename($tmpFinalOutput, $outputFilename);
+        }else{
+            rename($tmpUglifyJsOutput, $outputFilename);
+        }
+
         return $output;
     }
 
