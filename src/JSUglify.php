@@ -69,11 +69,7 @@ class JSUglify
     public function checkUglifyJsExists() {
         $command = self::$uglifyBinaryPath . " -V";
         exec($command, $outputText, $returnCode);
-        if($returnCode == 0) {
-            return true;
-        }else{
-            return false;
-        }
+        return ($returnCode == 0);
     }
 
     /**
