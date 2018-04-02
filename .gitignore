@@ -2,3 +2,4 @@ vendor
 .idea
 build/logs
 build/output
+build/coverage
