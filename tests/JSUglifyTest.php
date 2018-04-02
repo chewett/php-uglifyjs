@@ -31,15 +31,6 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException UglifyJSException
-     */
-    public function testUglifyJsFailsWhenMissingExe() {
-        $ug = new JSUglify();
-        $ug->setUglifyBinaryPath("not_uglifyjs");
-        $ug->checkUglifyJsExists();
-    }
-
-    /**
      * Tests to see if it fails with the expected exception on a non file
      * @expectedException UglifyJSException
      */
@@ -55,6 +46,15 @@ class JSUglifyTest extends \PHPUnit_Framework_TestCase
         $ug = new JSUglify();
         $output = $ug->uglify([__DIR__ . '/../vendor/components/jquery/jquery.js'], self::$buildDir . 'jquery.min.js');
         $this->assertNotNull($output);
+    }
+
+    /**
+     * This test purposely sets a bad executable so that when we try and check to see if it exists it fails to run
+     */
+    public function testUglifyJsFailsWhenMissingExe() {
+        $ug = new JSUglify();
+        $ug->setUglifyBinaryPath("not_uglifyjs");
+        $this->assertFalse($ug->checkUglifyJsExists());
     }
 
     /**
