@@ -52,7 +52,7 @@ class JSUglify
      * @param string $uglifyBinaryPath Either the name of the binary of path to the binary and name of it
      */
     public function setUglifyBinaryPath($uglifyBinaryPath) {
-        $this->$uglifyBinaryPath = $uglifyBinaryPath;
+        $this->uglifyBinaryPath = $uglifyBinaryPath;
     }
 
     /**
