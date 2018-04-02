@@ -62,7 +62,7 @@ class JSUglify
         return self::$uglifyBinaryPath;
     }
 
-    /**s
+    /**
      * Internal function used to validate that the uglifyJS script exists and works (to some degree)
      * @return bool
      */
